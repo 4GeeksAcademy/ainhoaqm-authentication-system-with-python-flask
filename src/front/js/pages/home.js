@@ -1,26 +1,37 @@
-import React, { useContext } from "react";
-import { Context } from "../store/appContext";
-import rigoImageUrl from "../../img/rigo-baby.jpg";
-import "../../styles/home.css";
+import React from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 export const Home = () => {
-	const { store, actions } = useContext(Context);
+    const navigate = useNavigate();
 
-	return (
-		<div className="text-center mt-5">
-			<h1>Hello Rigo!!</h1>
-			<p>
-				<img src={rigoImageUrl} />
-			</p>
-			<div className="alert alert-info">
-				{store.message || "Loading message from the backend (make sure your python backend is running)..."}
-			</div>
-			<p>
-				This boilerplate comes with lots of documentation:{" "}
-				<a href="https://start.4geeksacademy.com/starters/react-flask">
-					Read documentation
-				</a>
-			</p>
-		</div>
-	);
+    const handlePrivateMenu = () => {
+        const access_token = localStorage.getItem("access_token");
+        access_token ? navigate("/private") : navigate("/login");
+    };
+
+    return (
+        <div className="container mt-5">
+            <div className="row justify-content-center">
+                <div className="col-md-6">
+                    <div className="card">
+                        <div className="card-body text-center">
+                            <h1 className="card-title mb-4">Bienvenido a mi Página</h1>
+                            <p className="card-text">Selecciona una opción:</p>
+                            <div className="d-grid gap-2">
+                                <Link to="/login" className="btn btn-primary">
+                                    Iniciar Sesión
+                                </Link>
+                                <Link to="/signup" className="btn btn-success mt-2">
+                                    Registrarse
+                                </Link>
+                                <button onClick={handlePrivateMenu} className="btn btn-info mt-2">
+                                    Menú Privado
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
 };
